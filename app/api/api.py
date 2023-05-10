@@ -1,3 +1,4 @@
+#Importing modules
 from flask import Blueprint, jsonify, request, session, redirect, url_for, send_file
 from app.models.users import Users
 from app.models.address import Address
@@ -12,6 +13,7 @@ api = Blueprint('api', __name__, url_prefix="/api")
 UPLOAD_FOLDER = os.path.abspath("app/static/attachments")
 
 @api.route('/login', methods=['POST'])
+#Login functionality
 def login():
     try:
         email = request.json.get('email')
@@ -44,6 +46,7 @@ def login():
         }), 400
 
 @api.route("/logout", methods=["POST"])
+#Logout functionality
 def logout():
     try:
         session["email"] = None
@@ -60,6 +63,7 @@ def logout():
         }), 400
 
 @api.route("/add-address", methods=["POST"])
+#Adding URL once logged in
 def add_address():
     try:
         house_number = request.json.get("house_number")
@@ -83,6 +87,7 @@ def add_address():
         }), 400
 
 @api.route("/create-order", methods=["POST"])
+#Creating a new order
 def create_order():
     try:
         user_email = session.get("email")
@@ -104,6 +109,7 @@ def create_order():
         }), 400
 
 @api.route("/submit-help", methods=["POST"])
+#Help button
 def submit_help():
     title = request.form.get("title")
     description = request.form.get("description")
@@ -126,6 +132,7 @@ def download(filename):
     return send_file(os.path.join(UPLOAD_FOLDER, filename), as_attachment=True)
 
 @api.route("/search-order")
+#Searching functionality
 def search_order():
     order_id = request.args.get("order_id")
     user_email = session.get("email")
