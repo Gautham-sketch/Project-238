@@ -1,3 +1,4 @@
+#Importing modules
 from flask.cli import FlaskGroup
 from app import create_app, db
 from flask import current_app
@@ -15,8 +16,10 @@ from app.models.editor.company_products import CompanyProducts
 from app.models.editor.company_orders import CompanyOrders
 from app.models.editor.order_item import OrderItems
 
+#Initiating Flask Group
 cli = FlaskGroup(create_app=create_app)
 
+#List of all the users
 user_json = [
 	{
 		"name": "John Doe",
@@ -110,6 +113,7 @@ user_json = [
 	}
 ]
 
+#List of all the products
 product_json = [
 	{
 		"name": "Sergeant Rodog AI",
@@ -190,11 +194,13 @@ product_json = [
 	}
 ]
 
+#Resetting the database
 def recreate_db():
 	db.drop_all()
 	db.create_all()
 	db.session.commit()
 
+#Adding info to the database
 def seeder():
 	for user in user_json:
 		Users.create(user.get("name"), user.get("email"), user.get("password"), user.get("contact"))
